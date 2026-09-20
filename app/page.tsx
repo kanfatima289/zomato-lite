@@ -33,8 +33,8 @@ export default function Home() {
     <main className="mx-auto max-w-[560px] px-6 pt-10 pb-4">
       <div className="relative h-56 overflow-hidden rounded-3xl shadow-sm sm:h-64">
         <Image
-          src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1200&q=80"
-          alt="Plate of Indian food"
+          src="/burrito.jpg"
+          alt="Freshly made burrito"
           fill
           priority
           sizes="(max-width: 560px) 100vw, 560px"

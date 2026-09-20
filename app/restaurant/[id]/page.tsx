@@ -86,7 +86,7 @@ export default function RestaurantPage() {
     <main className="mx-auto max-w-[560px] px-6 pb-14 pt-6">
       <div className="relative h-52 overflow-hidden rounded-2xl shadow-sm">
         <Image
-          src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=1200&q=80"
+          src="/burrito.jpg"
           alt={`${name} — kitchen special`}
           fill
           sizes="(max-width: 560px) 100vw, 560px"
