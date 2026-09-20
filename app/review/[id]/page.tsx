@@ -75,7 +75,7 @@ export default function ReviewPage() {
                 type="button"
                 onClick={() => setRating(value)}
                 aria-label={`${value} star${value === 1 ? "" : "s"}`}
-                className={`text-4xl leading-none transition-colors ${selected ? "text-accent" : "text-neutral-300"}`}
+                className={`text-4xl leading-none transition-colors ${selected ? "text-zred" : "text-neutral-300"}`}
               >
                 {"\u2605"}
               </button>
@@ -92,25 +92,25 @@ export default function ReviewPage() {
           onChange={(e) => setComment(e.target.value)}
           rows={4}
           placeholder="How was the food?"
-          className="w-full resize-none rounded-lg border border-neutral-300 bg-white p-3 text-sm outline-none focus:border-neutral-500"
+          className="w-full resize-none rounded-lg border border-neutral-300 bg-white p-3 text-sm outline-none focus:border-zred"
         />
       </div>
 
       {error && (
-        <p className="mb-6 rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">{error}</p>
+        <p className="mb-6 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-zred">{error}</p>
       )}
 
       <button
         type="button"
         onClick={handleSubmit}
         disabled={rating === null || comment.trim().length === 0 || submitting}
-        className="rounded-lg bg-foreground px-5 py-3 text-sm text-background disabled:cursor-not-allowed disabled:opacity-40"
+        className="rounded-lg bg-zred px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-zred-dark disabled:cursor-not-allowed disabled:opacity-40"
       >
         {submitting ? "Submitting…" : "Submit review"}
       </button>
 
       <nav className="mt-12">
-        <Link href={`/restaurant/${id}`} className="text-sm text-neutral-500 underline-offset-4 hover:underline">
+        <Link href={`/restaurant/${id}`} className="text-sm text-zred underline-offset-4 hover:underline">
           Never mind — back to the restaurant
         </Link>
       </nav>

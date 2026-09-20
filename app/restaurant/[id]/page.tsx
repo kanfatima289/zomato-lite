@@ -21,11 +21,27 @@ type RestaurantData = {
   reviews: Review[];
 };
 
-function Stars({ count }: { count: number }) {
+function ratingFill(score: number | null): string {
+  if (score === null) return "bg-rating-grey";
+  if (score >= 4) return "bg-rating-green";
+  if (score >= 3) return "bg-rating-amber";
+  return "bg-rating-red";
+}
+
+function RatingPill({ score, size }: { score: number | null; size: "lg" | "sm" }) {
+  const big = size === "lg";
   return (
-    <span className="tracking-wider">
-      <span className="text-accent">{"\u2605".repeat(count)}</span>
-      <span className="text-neutral-300">{"\u2605".repeat(5 - count)}</span>
+    <span
+      className={`${ratingFill(score)} inline-flex items-center gap-2 rounded-lg text-white ${
+        big ? "px-5 py-3" : "px-2.5 py-1"
+      }`}
+    >
+      <span className={big ? "text-2xl" : "text-xs"}>{"\u2605"}</span>
+      <span
+        className={`tabular-nums ${big ? "text-4xl font-bold" : "text-sm font-semibold"}`}
+      >
+        {score === null ? "—" : score}
+      </span>
     </span>
   );
 }
@@ -67,40 +83,43 @@ export default function RestaurantPage() {
 
   return (
     <main className="mx-auto max-w-[560px] px-6 py-16">
-      <header className="mb-12">
-        <h1 className="text-3xl font-semibold tracking-tight">{name}</h1>
-        <p className="mt-1 text-sm text-neutral-500">{cuisine} · {area}</p>
+      <header className="mb-8">
+        <h1 className="text-3xl font-bold tracking-tight">{name}</h1>
+        <p className="mt-1 text-sm text-neutral-600">{cuisine} · {area}</p>
       </header>
 
-      <section className="mb-12">
-        <p className="text-7xl font-semibold tracking-tight">{averageRating === null ? "—" : averageRating}</p>
-        <p className="mt-2 text-sm text-neutral-500">
-          {totalReviews === 0 ? "No reviews yet" : `${totalReviews} ${totalReviews === 1 ? "review" : "reviews"}`}
-        </p>
+      <section className="mb-10 flex items-center gap-4">
+        <RatingPill score={averageRating} size="lg" />
+        <div>
+          <p className="text-sm font-semibold">
+            {totalReviews === 0 ? "Not yet rated" : `${totalReviews} ${totalReviews === 1 ? "review" : "reviews"}`}
+          </p>
+          <p className="text-xs text-neutral-500">Ratings and reviews from diners</p>
+        </div>
       </section>
 
       {totalReviews === 0 && (
-        <section className="mb-12 rounded-xl border border-neutral-200 p-8 text-center">
-          <p className="text-neutral-600">No reviews yet. Be the first to try {name}.</p>
+        <section className="mb-8 rounded-xl border border-neutral-200 bg-white p-8 text-center">
+          <p>No reviews yet. Be the first to try {name}.</p>
         </section>
       )}
 
       {latestReview && (
-        <section className="mb-12 rounded-xl border border-amber-200 bg-amber-50 p-6">
-          <p className="mb-3 text-xs uppercase tracking-wide text-neutral-500">Latest review</p>
-          <Stars count={latestReview.rating} />
+        <section className="mb-8 rounded-xl border border-neutral-200 bg-white p-6">
+          <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-zred">Latest review</p>
+          <RatingPill score={latestReview.rating} size="sm" />
           <p className="mt-3">{latestReview.comment}</p>
           <p className="mt-2 text-xs text-neutral-500">{formatDate(latestReview.createdAt)}</p>
         </section>
       )}
 
       {reviews.length > 0 && (
-        <section className="space-y-8">
+        <section className="mb-8 divide-y divide-neutral-200 rounded-xl border border-neutral-200 bg-white px-6">
           {reviews.map((review) => (
-            <article key={review.id}>
-              <Stars count={review.rating} />
-              <p className="mt-2">{review.comment}</p>
-              <p className="mt-1 text-xs text-neutral-500">{formatDate(review.createdAt)}</p>
+            <article key={review.id} className="py-5">
+              <RatingPill score={review.rating} size="sm" />
+              <p className="mt-3">{review.comment}</p>
+              <p className="mt-2 text-xs text-neutral-500">{formatDate(review.createdAt)}</p>
             </article>
           ))}
         </section>
@@ -109,7 +128,7 @@ export default function RestaurantPage() {
       <nav className="mt-12">
         <Link
           href={`/review/${id}`}
-          className="inline-block rounded-lg bg-foreground px-5 py-3 text-sm text-background"
+          className="inline-flex items-center rounded-lg bg-zred px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-zred-dark"
         >
           Write a review
         </Link>
