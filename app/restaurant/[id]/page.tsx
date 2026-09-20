@@ -82,44 +82,55 @@ export default function RestaurantPage() {
   const { name, cuisine, area, averageRating, totalReviews, latestReview, reviews } = data;
 
   return (
-    <main className="mx-auto max-w-[560px] px-6 py-16">
-      <header className="mb-8">
-        <h1 className="text-3xl font-bold tracking-tight">{name}</h1>
-        <p className="mt-1 text-sm text-neutral-600">{cuisine} · {area}</p>
+    <main className="mx-auto max-w-[560px] px-6 pb-16 pt-8">
+      <header className="mb-10">
+        <p className="text-xs font-semibold uppercase tracking-widest text-zred">Restaurant</p>
+        <h1 className="mt-2 text-4xl font-bold tracking-tight">{name}</h1>
+        <div className="mt-4 flex flex-wrap gap-2">
+          <span className="rounded-full border border-neutral-200 bg-white px-3 py-1 text-xs font-medium text-neutral-600">{cuisine}</span>
+          <span className="rounded-full border border-neutral-200 bg-white px-3 py-1 text-xs font-medium text-neutral-600">{area}</span>
+        </div>
       </header>
 
-      <section className="mb-10 flex items-center gap-4">
-        <RatingPill score={averageRating} size="lg" />
-        <div>
-          <p className="text-sm font-semibold">
-            {totalReviews === 0 ? "Not yet rated" : `${totalReviews} ${totalReviews === 1 ? "review" : "reviews"}`}
-          </p>
-          <p className="text-xs text-neutral-500">Ratings and reviews from diners</p>
+      <section className="mb-8 rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
+        <div className="flex items-center gap-5">
+          <RatingPill score={averageRating} size="lg" />
+          <div>
+            <p className="text-base font-semibold">
+              {totalReviews === 0 ? "Not yet rated" : `${totalReviews} ${totalReviews === 1 ? "review" : "reviews"}`}
+            </p>
+            <p className="text-xs text-neutral-500">Overall rating</p>
+          </div>
         </div>
       </section>
 
       {totalReviews === 0 && (
-        <section className="mb-8 rounded-xl border border-neutral-200 bg-white p-8 text-center">
-          <p>No reviews yet. Be the first to try {name}.</p>
+        <section className="mb-8 rounded-2xl border border-neutral-200 bg-white p-10 text-center shadow-sm">
+          <p className="font-medium">No reviews yet.</p>
+          <p className="mt-1 text-sm text-neutral-500">Be the first to try {name}.</p>
         </section>
       )}
 
       {latestReview && (
-        <section className="mb-8 rounded-xl border border-neutral-200 bg-white p-6">
-          <p className="mb-3 text-xs font-semibold uppercase tracking-wide text-zred">Latest review</p>
+        <section className="mb-8 rounded-2xl border border-neutral-200 border-l-4 border-l-zred bg-white p-6 shadow-sm">
+          <div className="mb-3 flex items-center justify-between">
+            <p className="text-xs font-semibold uppercase tracking-widest text-zred">Latest review</p>
+            <p className="text-xs text-neutral-500">{formatDate(latestReview.createdAt)}</p>
+          </div>
           <RatingPill score={latestReview.rating} size="sm" />
-          <p className="mt-3">{latestReview.comment}</p>
-          <p className="mt-2 text-xs text-neutral-500">{formatDate(latestReview.createdAt)}</p>
+          <p className="mt-3 text-[15px] leading-relaxed">{latestReview.comment}</p>
         </section>
       )}
 
       {reviews.length > 0 && (
-        <section className="mb-8 divide-y divide-neutral-200 rounded-xl border border-neutral-200 bg-white px-6">
+        <section className="mb-8 divide-y divide-neutral-200 rounded-2xl border border-neutral-200 bg-white px-6 shadow-sm">
           {reviews.map((review) => (
             <article key={review.id} className="py-5">
-              <RatingPill score={review.rating} size="sm" />
-              <p className="mt-3">{review.comment}</p>
-              <p className="mt-2 text-xs text-neutral-500">{formatDate(review.createdAt)}</p>
+              <div className="flex items-center justify-between">
+                <RatingPill score={review.rating} size="sm" />
+                <p className="text-xs text-neutral-500">{formatDate(review.createdAt)}</p>
+              </div>
+              <p className="mt-3 text-[15px] leading-relaxed">{review.comment}</p>
             </article>
           ))}
         </section>
@@ -128,7 +139,7 @@ export default function RestaurantPage() {
       <nav className="mt-12">
         <Link
           href={`/review/${id}`}
-          className="inline-flex items-center rounded-lg bg-zred px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-zred-dark"
+          className="block rounded-full bg-zred py-4 text-center text-sm font-semibold text-white transition-colors hover:bg-zred-dark"
         >
           Write a review
         </Link>
