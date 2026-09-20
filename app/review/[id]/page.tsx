@@ -60,13 +60,13 @@ export default function ReviewPage() {
   }
 
   return (
-    <main className="mx-auto max-w-[560px] px-6 pb-16 pt-8">
+    <main className="mx-auto max-w-[560px] px-6 pb-14 pt-8">
       <header className="mb-8">
         <p className="text-xs font-semibold uppercase tracking-widest text-zred">Reviewing</p>
-        <h1 className="mt-2 text-4xl font-bold tracking-tight">{name}</h1>
+        <h1 className="mt-2 text-3xl font-bold tracking-tight">{name}</h1>
       </header>
 
-      <section className="rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
+      <section className="rounded-2xl border border-neutral-200 bg-neutral-50 p-6">
         <div className="mb-3 flex items-baseline justify-between">
           <label className="text-sm font-semibold">Your rating</label>
           {rating !== null && (

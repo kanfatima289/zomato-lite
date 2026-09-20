@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -82,37 +83,44 @@ export default function RestaurantPage() {
   const { name, cuisine, area, averageRating, totalReviews, latestReview, reviews } = data;
 
   return (
-    <main className="mx-auto max-w-[560px] px-6 pb-16 pt-8">
-      <header className="mb-10">
-        <p className="text-xs font-semibold uppercase tracking-widest text-zred">Restaurant</p>
-        <h1 className="mt-2 text-4xl font-bold tracking-tight">{name}</h1>
-        <div className="mt-4 flex flex-wrap gap-2">
-          <span className="rounded-full border border-neutral-200 bg-white px-3 py-1 text-xs font-medium text-neutral-600">{cuisine}</span>
-          <span className="rounded-full border border-neutral-200 bg-white px-3 py-1 text-xs font-medium text-neutral-600">{area}</span>
+    <main className="mx-auto max-w-[560px] px-6 pb-14 pt-6">
+      <div className="relative h-52 overflow-hidden rounded-2xl shadow-sm">
+        <Image
+          src="https://images.unsplash.com/photo-1585937421612-70a008356fbe?w=1200&q=80"
+          alt={`${name} — kitchen special`}
+          fill
+          sizes="(max-width: 560px) 100vw, 560px"
+          className="object-cover"
+        />
+      </div>
+
+      <header className="pb-8 pt-6">
+        <h1 className="text-3xl font-bold tracking-tight">{name}</h1>
+        <div className="mt-3 flex flex-wrap gap-2">
+          <span className="rounded-full bg-neutral-100 px-3 py-1 text-xs font-medium text-neutral-600">{cuisine}</span>
+          <span className="rounded-full bg-neutral-100 px-3 py-1 text-xs font-medium text-neutral-600">{area}</span>
         </div>
       </header>
 
-      <section className="mb-8 rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm">
-        <div className="flex items-center gap-5">
-          <RatingPill score={averageRating} size="lg" />
-          <div>
-            <p className="text-base font-semibold">
-              {totalReviews === 0 ? "Not yet rated" : `${totalReviews} ${totalReviews === 1 ? "review" : "reviews"}`}
-            </p>
-            <p className="text-xs text-neutral-500">Overall rating</p>
-          </div>
+      <section className="flex items-center gap-5 border-b border-neutral-200 pb-8">
+        <RatingPill score={averageRating} size="lg" />
+        <div>
+          <p className="text-base font-semibold">
+            {totalReviews === 0 ? "Not yet rated" : `${totalReviews} ${totalReviews === 1 ? "review" : "reviews"}`}
+          </p>
+          <p className="text-sm text-neutral-500">Overall rating</p>
         </div>
       </section>
 
       {totalReviews === 0 && (
-        <section className="mb-8 rounded-2xl border border-neutral-200 bg-white p-10 text-center shadow-sm">
+        <section className="py-14 text-center">
           <p className="font-medium">No reviews yet.</p>
           <p className="mt-1 text-sm text-neutral-500">Be the first to try {name}.</p>
         </section>
       )}
 
       {latestReview && (
-        <section className="mb-8 rounded-2xl border border-neutral-200 border-l-4 border-l-zred bg-white p-6 shadow-sm">
+        <section className="mt-8 rounded-2xl border border-l-4 border-neutral-200 border-l-zred bg-neutral-50 p-5">
           <div className="mb-3 flex items-center justify-between">
             <p className="text-xs font-semibold uppercase tracking-widest text-zred">Latest review</p>
             <p className="text-xs text-neutral-500">{formatDate(latestReview.createdAt)}</p>
@@ -123,9 +131,10 @@ export default function RestaurantPage() {
       )}
 
       {reviews.length > 0 && (
-        <section className="mb-8 divide-y divide-neutral-200 rounded-2xl border border-neutral-200 bg-white px-6 shadow-sm">
+        <section className="mt-10">
+          <h2 className="mb-2 text-sm font-semibold text-neutral-600">Older reviews</h2>
           {reviews.map((review) => (
-            <article key={review.id} className="py-5">
+            <article key={review.id} className="border-t border-neutral-100 py-5 last:border-b">
               <div className="flex items-center justify-between">
                 <RatingPill score={review.rating} size="sm" />
                 <p className="text-xs text-neutral-500">{formatDate(review.createdAt)}</p>
