@@ -19,7 +19,12 @@ export async function POST(request: Request) {
   const { rating, comment, restaurantId } = body;
 
   // Check 1: rating must be a whole number from 1 to 5.
-  if (!Number.isInteger(rating) || rating < 1 || rating > 5) {
+  if (
+    typeof rating !== "number" ||
+    !Number.isInteger(rating) ||
+    rating < 1 ||
+    rating > 5
+  ) {
     return NextResponse.json(
       { error: "Rating must be a whole number from 1 to 5." },
       { status: 400 }

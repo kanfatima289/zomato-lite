@@ -47,23 +47,23 @@ export async function GET(
     [restaurantId]
   );
 
-  const latest = await sql.query(
+  const latest = (await sql.query(
     `SELECT id, rating, comment, created_at
      FROM reviews
      WHERE restaurant_id = $1
      ORDER BY created_at DESC
      LIMIT 1`,
     [restaurantId]
-  );
+  )) as Review[];
 
-  const older = await sql.query(
+  const older = (await sql.query(
     `SELECT id, rating, comment, created_at
      FROM reviews
      WHERE restaurant_id = $1
      ORDER BY created_at DESC
      OFFSET 1`,
     [restaurantId]
-  );
+  )) as Review[];
 
   const average = agg[0].average_rating;
   const averageRating = average === null ? null : Number(average);
